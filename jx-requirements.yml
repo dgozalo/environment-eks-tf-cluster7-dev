@@ -1,38 +1,91 @@
 autoUpdate:
   enabled: false
   schedule: ""
+bootConfigURL: https://github.com/cloudbees/cloudbees-jenkins-x-boot-config.git
 cluster:
-  clusterName: ""
-  environmentGitOwner: ""
+  clusterName: eks-tf-cluster7
+  devEnvApprovers:
+  - dgozalo
+  environmentGitOwner: dgozalo
   environmentGitPublic: true
-  project: ""
-  azure: {}
-  provider: gke
-  zone: ""
-gitops: true
+  gitKind: github
+  gitName: github
+  gitServer: https://github.com
+  namespace: jx
+  provider: eks
+  region: us-east-1
+  registry: 105716213112.dkr.ecr.us-east-1.amazonaws.com
 environments:
-  - key: dev
-  - key: staging
-  - key: production
+- ingress:
+    domain: 52.3.74.166.nip.io
+    externalDNS: false
+    ignoreLoadBalancer: true
+    namespaceSubDomain: -jx.
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: dev
+  repository: environment-eks-tf-cluster7-dev
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: staging
+  repository: environment-eks-tf-cluster7-staging
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: production
+  repository: environment-eks-tf-cluster7-production
+gitops: true
 ingress:
-  domain: ""
+  domain: 52.3.74.166.nip.io
   externalDNS: false
+  ignoreLoadBalancer: true
+  namespaceSubDomain: -jx.
   tls:
     email: ""
     enabled: false
     production: false
 kaniko: true
+repository: nexus
 secretStorage: vault
 storage:
+  backup:
+    enabled: false
+    url: ""
   logs:
     enabled: true
-    url: ""
+    url: s3://logs-eks-tf-cluster720200224135648392900000001
   reports:
-    enabled: true
+    enabled: false
     url: ""
   repository:
-    enabled: true
+    enabled: false
     url: ""
+terraform: true
+vault:
+  aws:
+    dynamoDBRegion: us-east-1
+    dynamoDBTable: vault-unseal-eks-tf-cluster7-random19210290120
+    iamUserName: cjxd-vault
+    kmsKeyId: e82ced93-fb86-449d-845d-8846070dce17
+    kmsRegion: us-east-1
+    s3Bucket: vault-unseal-eks-tf-cluster7-20200224135649055000000002
+    s3Region: us-east-1
+velero:
+  schedule: ""
+  ttl: ""
 versionStream:
   ref: 2.0.1192+cjxd.7
   url: https://github.com/cloudbees/cloudbees-jenkins-x-versions.git
